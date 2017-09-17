@@ -1,0 +1,50 @@
+<style>
+    .ng-dirty.ng-invalid {
+        border-color: #FA787E;
+    }
+
+    .ng-dirty.ng-valid {
+        border-color: #78FA89;
+    }
+
+</style>
+
+<form name="vm.accountForm" ng-if="vm.isForm" novalidate>
+
+    <div class="form-group">
+    <label>Имя</label>
+    <input class="form-control" name="accountName" data-ng-model="vm.account.name" type="text" placeholder="Имя" required ng-minlength="3">
+</div>
+
+    <div ng-messages="vm.accountForm.accountName.$error" ng-if="vm.accountForm.accountName.$dirty">
+        <div ng-message="required" class="alert alert-danger" role="alert">А где имя?</div>
+        <div ng-message="minlength" class="alert alert-danger" role="alert">Имя слишком короткое</div>
+    </div>
+
+    <div class="form-group">
+        <label>Email</label>
+        <input class="form-control" name="accountEmail" data-ng-model="vm.account.email" type="email" placeholder="Email" required>
+    </div>
+
+    <div ng-messages="vm.accountForm.accountEmail.$error" ng-if="vm.accountForm.accountEmail.$dirty">
+        <div ng-message="required" class="alert alert-danger" role="alert">Необходима почта</div>
+    </div>
+
+    <div class="form-group">
+        <label>Телефон</label>
+        <input class="form-control" name="accountPhone" data-ng-model="vm.account.phone" data-ng-pattern="/^\+?(\d){7,}$/" type="tel" placeholder="Телефон">
+    </div>
+
+    <div ng-messages="vm.accountForm.accountPhone.$error" ng-if="vm.accountForm.accountPhone.$dirty">
+        <div ng-message="pattern" class="alert alert-danger" role="alert">Неверный номер</div>
+    </div>
+
+    <button type="submit" class="btn btn-default" data-ng-click="vm.saveAccount(vm.account)" data-ng-disabled="vm.accountForm.$invalid">Сохранить</button>
+
+</form>
+
+<div ng-if="!vm.isForm">
+    <p>Имя: <span ng-bind="vm.account.name"></span></p>
+    <p>Email: <span ng-bind="vm.account.email"></span></p>
+    <p ng-if="vm.account.phone">Телефон: <span ng-bind="vm.account.phone"></span></p>
+</div>
